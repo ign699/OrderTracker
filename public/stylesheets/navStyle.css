@@ -1,0 +1,28 @@
+.sideNav {
+  height: 100%;
+  width: 150px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000000;
+  padding-top: 60px;
+}
+
+.sideNav a {
+  padding: 8px 8px 8px 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: gray;
+  display: block; 
+}
+.sideNav a:hover {
+  color: #FFFFFF;
+}
+
+.invisibleEntry {
+  display: none;
+}
+
+
+
+

@@ -1,0 +1,128 @@
+input, label {
+  display: block;
+}
+label {
+  font-weight: bold;
+}
+
+form {
+  display: inline-block;
+  border: 1px black solid;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+table {
+  text-align: left;
+}
+
+
+
+table th  {
+  padding-right: 40px;
+}
+
+form button {
+  width: 100%;
+  border: solid 1px grey;
+}
+
+
+.modal {
+  display: none;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+}
+
+
+
+.modalContent {
+  margin: 15% auto;
+  background-color: white;
+  width: 80%;
+  text-align: center;
+}
+
+.modalContent span {
+  float:right;
+  margin-right: 6px;
+  cursor: pointer;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.modalContent span:hover {
+  color: grey; 
+}
+
+.modalSelects {
+  margin: auto;
+}
+
+.modalSelects select{
+  width: 150px;
+  height: 40px;
+  margin-top: 25px; 
+}
+
+.modalSelects input{
+  width: 150px;
+  height: 40px;
+  margin-top: 25px; 
+  display: inline-block;
+}
+
+.modalContent button {
+  float: right;
+  margin-right: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 40%; 
+  height: 30px;
+}
+
+.modalContent::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.orderData {
+  display: inline-block;
+  border: 1px black solid;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+
+.positionsAdded {
+  display: inline-block;
+  border: 1px black solid;
+  border-radius: 10px;
+  padding: 5px;
+  margin-left:50px;
+  vertical-align: top;
+}
+
+.orderingArea {
+  display: inline-block;
+  margin-left: 0 auto;
+}
+
+.addEntryButton {
+  vertical-align: top;
+  margin: 10 10;
+}
+
+.delete {
+  cursor: pointer;
+}
+
+.delete:hover {
+  color: grey;
+}

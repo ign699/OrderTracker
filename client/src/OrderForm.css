@@ -1,0 +1,19 @@
+label {
+     display: block;
+     margin: auto;
+ }
+input {
+    display: block;
+    margin: auto;
+}
+
+table {
+    margin: auto;
+}
+
+
+
+td, th {
+    padding-right:10px;
+    padding-bottom: 10px ;
+}

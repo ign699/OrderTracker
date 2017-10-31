@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css' />
+  <link rel='stylesheet' href='/stylesheets/navStyle.css' />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/addOrder.css' />
+  <script src='/javascripts/requests.js' defer></script>
+  <script src='/javascripts/index.js' defer></script>
+  <script src='/javascripts/addOrder.js' defer></script>
+
+</head>
+
+<body>
+
+  <% include sideNavbar.html %>
+
+    <div id='main' class="main">
+      <div class='orderingArea'>
+        <button id='openModal' class='addEntryButton'><i class="fa fa-plus-square-o" aria-hidden="true"></i>   Add Entry</button>
+        <form action='/orders/add' method="post">
+          <div id='orderData'>
+            <label>Customer:</label>
+            <select name='customer' id='customersSelect' required>
+              <%customers.forEach((customer)=> {%>
+                <option value='<%= customer._id%>'>
+                  <%=customer.name%>
+                </option>
+                <%})%>
+            </select>
+            <label>Type</label>
+            <select name='type' id='types' required>
+              <%types.forEach((type)=> {%>
+                <option value='<%= type._id%>'>
+                  <%=type.name%>
+                </option>
+                <%})%>
+            </select>
+            <label>To be delivered date:</label>
+            <input name='tobedelivereddate' type='date' required>
+            <label>To bo paid</label>
+            <input name='tobepaiddate' type='date' value="2015-05-08" required>
+          </div>
+          <div id='orderDetails'>
+          </div>
+          <button id='submitBtn' type="submit" disabled>Submit</button>
+        </form>
+
+
+        <div class='positionsAdded'>
+          <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Container</th>
+                  <th>Quantity</th>
+                  <th></th>
+                </tr>
+                <tbody id='entries'>
+                  <tr class='firstRow'>
+                    <td colspan='3'>
+                      No Entries added to the order yet.
+                    </td>
+                  </tr>
+                </tbody>
+              </thead>
+            </table>
+        </div>
+      </div>
+
+
+
+
+      <div id='modal' class='modal'>
+        <div class='modalContent'>
+          <span id='modalClose' class="close">&times;</span>
+          <div class='modalSelects'>
+            <select id='productSelect'>
+              <%products.forEach((product)=> {%>
+                <option value='<%= product._id%>'><%=product.name%></option>
+                <%})%>
+            </select>
+
+            <select id='containerSelect'>
+              <%containers.forEach((container)=> {%>
+                <option value='<%= container._id%>'><%=container.name%></option>
+                <%})%>
+            </select>
+            <input id='amount' type='number' min='1' value='1' /> 
+          </div>
+          <button id='addEntryButton'>Add Entry</button>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
