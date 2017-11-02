@@ -17,3 +17,39 @@ td, th {
     padding-right:10px;
     padding-bottom: 10px ;
 }
+
+.spinner {
+    height: 100vh;
+    font-size: 50px;
+}
+.fa-spinner {
+    margin-top: 40vh;
+    display: inline-block;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error {
+    border: 1px solid red;
+    box-shadow: 0px 0px 5px red, inset 0px 0px 2px red;
+}
+.show-info {
+    width: 100%;
+    position: fixed;
+    top: 20vh;
+}
+.hide-info {
+    display: none;
+}
+
+.page {
+    font-size: 15px;
+}
+
+.disabled {
+    cursor: not-allowed;
+}

@@ -14,6 +14,6 @@ router.get('/products', (req, res) => {
     console.log(error);
     res.sendStatus(404);
   })
-})
+});
 
 module.exports = router;

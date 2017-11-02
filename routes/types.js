@@ -13,6 +13,6 @@ router.get('/types', (req, res) => {
     console.log(error);
     res.sendStatus(404);
   })
-})
+});
 
 module.exports = router;
