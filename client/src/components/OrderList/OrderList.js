@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PageSwitcher from './PageSwitcher'
 import axios from 'axios';
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import "./OrderList.css"
 
 class OrderList extends React.Component {
     state = {
@@ -8,9 +10,13 @@ class OrderList extends React.Component {
       length: 10,
       orders: [],
       hasNext: false,
-      hasPrevious: false
+      hasPrevious: false,
+      loaded: false
     };
 
+    changeLoadedState = (state) => {
+      this.setState({loaded: state})
+    };
     componentDidMount = () => {
       axios.get("orders/" + this.state.page + "/" + this.state.length)
         .then(results => {
@@ -19,11 +25,11 @@ class OrderList extends React.Component {
             orders: results.data.results,
             hasNext: results.data.hasNext
           });
-          this.props.changeLoaded(true)
+          this.changeLoadedState(true);
         })
     };
     changePage = (value) => {
-      this.props.changeLoaded(false)
+      this.changeLoadedState(false);
         axios.get("orders/" + (this.state.page + value) + "/" + this.state.length)
           .then((response) => {
             this.setState(prevState => ({
@@ -32,12 +38,12 @@ class OrderList extends React.Component {
               hasNext: response.data.hasNext,
               hasPrevious: (prevState.page + value) !== 1
             }));
-            this.props.changeLoaded(true)
+            this.changeLoadedState(true)
           })
     };
 
     render() {
-      if(this.props.loaded) {
+      if(this.state.loaded) {
         return (
           <div>
             <table className="table table-bordered">
@@ -57,7 +63,7 @@ class OrderList extends React.Component {
           </div>
         )
       } else {
-        return (<div className="spinner"><i className="fa fa-spinner" aria-hidden="true"></i></div>)
+        return <LoadingSpinner />
       }
 
     }

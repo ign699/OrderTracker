@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../node_modules/font-awesome/css/font-awesome.min.css';
-import '../../OrderForm.css';
+import './OrderForm.css';
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 class OrderForm extends Component {
   state = {
@@ -16,10 +17,13 @@ class OrderForm extends Component {
     deliverBy: "",
     payBy: "",
     customerValid: false,
-    success: false
+    success: false,
+    loaded: false
   };
 
-
+  changeLoadedState = (state) => {
+    this.setState({loaded: state})
+  };
 
   componentDidMount = () => {
     axios.all([
@@ -55,7 +59,7 @@ class OrderForm extends Component {
         details: details
       });
 
-      this.props.changeState(true);
+      this.changeLoadedState(true);
     })
   };
 
@@ -128,8 +132,9 @@ class OrderForm extends Component {
       this.setState({customerValid: true})
     }
   };
+
   render() {
-    if(this.props.loaded){
+    if(this.state.loaded){
       return (
         <form className="form" onSubmit={this.handleSubmit}>
           <div className="form-group">
@@ -185,7 +190,8 @@ class OrderForm extends Component {
 
       )
     } else {
-      return (<div className="spinner"><i className="fa fa-spinner" aria-hidden="true"></i></div>)
+      return <LoadingSpinner />
+
     }
 
   }

@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Set up mongoose connection
 const mongoose = require('mongoose');
-const mongoDB = 'mongodb://ign699:root@ds159254.mlab.com:59254/ordertracker';
+const mongoDB = 'mongodb://127.0.0.1:27017';
 mongoose.connect(mongoDB);
 
 const db = mongoose.connection;

@@ -25,7 +25,7 @@ router.get('/order/details/:orderid', (req, res) => {
 
 router.get('/orders/:page/:length', (req, res) => {
   console.log(req.params);
-  Order.find().skip((parseInt(req.params.page)-1)*(parseInt(req.params.length))).limit(parseInt(req.params.length)+1).select("toBePaidDate cost toBeDeliveredDate customer type").populate("type customer", "name")
+  Order.find().sort({_id: -1}).skip((parseInt(req.params.page)-1)*(parseInt(req.params.length))).limit(parseInt(req.params.length)+1).select("toBePaidDate cost toBeDeliveredDate customer type").populate("type customer", "name")
     .then((results) => {
       const length = results.length;
       if(length === 11)
