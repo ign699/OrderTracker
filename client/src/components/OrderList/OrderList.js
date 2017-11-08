@@ -40,7 +40,7 @@ class OrderList extends React.Component {
       });
     };
     componentDidMount = () => {
-      axios.get("orders/" + this.state.page + "/" + this.state.length)
+      axios.get("/api/orders/" + this.state.page + "/" + this.state.length)
         .then(results => {
           this.setState({
             orders: results.data.results,
@@ -48,7 +48,7 @@ class OrderList extends React.Component {
           });
           this.changeLoadedState(true);
         });
-      axios.all([axios.get("products"), axios.get("containers")])
+      axios.all([axios.get("/api/products"), axios.get("/api/containers")])
         .then(response => {
           const products = {};
           const containers = {};
@@ -100,7 +100,7 @@ class OrderList extends React.Component {
 
     changePage = (value) => {
       this.changeLoadedState(false);
-        axios.get("orders/" + (this.state.page + value) + "/" + this.state.length)
+        axios.get("/api/orders/" + (this.state.page + value) + "/" + this.state.length)
           .then((response) => {
             this.setState(prevState => ({
               page: prevState.page + value,
@@ -159,7 +159,7 @@ class OrderList extends React.Component {
       const id = event.target.parentNode.dataset.orderid;
       const index = event.target.parentNode.rowIndex-1;
       console.log(this.state.orders[index]);
-      axios.get("order/details/" + id)
+      axios.get("/api/order/details/" + id)
         .then(results => {
           this.setState({
             details: results.data.details,

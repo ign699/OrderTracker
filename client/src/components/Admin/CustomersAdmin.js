@@ -16,8 +16,8 @@ class CustomersAdmin extends Component {
 
   componentDidMount = () => {
     axios.all([
-      axios.get('customers'),
-      axios.get('containers')
+      axios.get('/api/customers'),
+      axios.get('/api/containers')
     ]).then((response) => {
       const customers = Object.create(null);
       response[0].data.forEach(customer => customers[customer.name] = {id: customer._id, container: customer.prefferedContainer.name});
@@ -56,7 +56,7 @@ class CustomersAdmin extends Component {
       name: this.state.customer,
       container: this.state.containers[this.state.container]
     };
-    axios.post('customer', body)
+    axios.post('/api/customer', body)
       .then((response) => {
         console.log(response);
         this.setState({
@@ -65,7 +65,7 @@ class CustomersAdmin extends Component {
           showModal: false,
           customerValid: true,
         });
-        axios.get("customers")
+        axios.get("/api/customers")
           .then((response) => {
             const customers = Object.create(null);
             response.data.forEach(customer => customers[customer.name] = {id: customer._id, container: customer.prefferedContainer.name});

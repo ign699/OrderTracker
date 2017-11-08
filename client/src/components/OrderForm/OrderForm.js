@@ -30,10 +30,10 @@ class OrderForm extends Component {
 
   componentDidMount = () => {
     axios.all([
-      axios.get('/customers'),
-      axios.get('/products'),
-      axios.get('/containers'),
-      axios.get('/types')
+      axios.get('/api/customers'),
+      axios.get('/api/products'),
+      axios.get('/api/containers'),
+      axios.get('/api/types')
     ]).then(response => {
       const customers = {};
       const products = {};
@@ -88,7 +88,7 @@ class OrderForm extends Component {
       details: details
     };
 
-    axios.post('/orders/add', body).then((response) => {
+    axios.post('/api/orders/add', body).then((response) => {
       if (response.status === 200) {
         const newDetails = {};
         Object.keys(this.state.products).forEach(key =>
