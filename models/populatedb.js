@@ -42,7 +42,7 @@ const addCustomer = (data) => {
   .catch((error) => {
     console.log("Failed Adding container");
   })
-}
+};
 
 const addOrderType = (data) => {
   const orderType = new OrderType(data);
@@ -53,16 +53,27 @@ const addOrderType = (data) => {
   .catch((error) => {
     console.log("Failed Adding type");
   })
-}
+};
 
 addContainer({name: 'tacka', weight: 400});
-addContainer({name: 'kilo', weight: 1000})
+addContainer({name: 'kilo', weight: 1000});
 
-addProduct({name: 'Uszka mięso'})
-addProduct({name: 'Uszka grzyb'})
+addProduct({name: 'Uszka mięso'});
+addProduct({name: 'Uszka grzyb'});
 
 addCustomer({name: 'Mądel'});
-addCustomer({name: 'Grosik'})
+addCustomer({name: 'Grosik'});
 
-addOrderType({name: 'faktura'})
-addOrderType({name: 'paragon'})
+addOrderType({name: 'faktura'});
+addOrderType({name: 'paragon'});
+
+Container.findOne()
+  .then(container => {
+    Customer.find({})
+      .then(customer => {
+        customer.prefferedContainer = container._id;
+        customer.save();
+      })
+  });
+
+
