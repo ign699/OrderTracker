@@ -30,17 +30,17 @@ class OrderForm extends Component {
 
   componentDidMount = () => {
     axios.all([
-      axios.get('customers'),
-      axios.get('products'),
-      axios.get('containers'),
-      axios.get('types')
+      axios.get('/customers'),
+      axios.get('/products'),
+      axios.get('/containers'),
+      axios.get('/types')
     ]).then(response => {
       const customers = {};
       const products = {};
       const containers = {};
       const types = {};
       const details = {};
-
+      console.log(response);
       response[0].data.forEach(customer => customers[customer.name] = {id: customer._id, container:customer.prefferedContainer.name});
       response[2].data.forEach(container => containers[container.name] = container._id);
       response[1].data.forEach(product => {

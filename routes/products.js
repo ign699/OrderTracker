@@ -5,7 +5,7 @@ const Products = require('./../models/product');
 
 const router = express.Router();
 
-router.get('/products', (req, res) => {
+router.get('/api/products', (req, res) => {
   Products.find({}).select('name')
   .then((results) => {
     res.send(JSON.stringify(results));

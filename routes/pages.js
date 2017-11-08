@@ -6,7 +6,7 @@ const Product = require('./../models/product');
 const Container = require('./../models/container');
 const router = express.Router();
 
-router.get('/addOrder', (req, res) => {
+router.get('/api/addOrder', (req, res) => {
   const data = [Customer, OrderType, Product, Container].map((model) => {
     return model.find({}).select('name');
   });

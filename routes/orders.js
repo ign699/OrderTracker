@@ -4,7 +4,7 @@ const Order = require('./../models/order');
 
 const router = express.Router();
 
-router.get('/order/:orderid', (req, res) => {
+router.get('/api/order/:orderid', (req, res) => {
   connection.query('select orderid, placeddate, tobepaiddate, tobedelivereddate, cost, ordertypeid, customers.name as customername from orders inner join customers on customers.customerid = orders.customerid where orderid = ? and orders.valid = 1', req.params.orderid)
     .then((results) => {
       res.send(JSON.stringify(results[0]));
@@ -15,11 +15,11 @@ router.get('/order/:orderid', (req, res) => {
 });
 
 
-router.get('/orders/:customerid', (req, res) => {
+router.get('/api/orders/:customerid', (req, res) => {
 
 });
 
-router.get('/order/details/:orderid', (req, res) => {
+router.get('/api/order/details/:orderid', (req, res) => {
   Order.findOne({_id: req.params.orderid}).populate("details.product details.container", "name").select("details")
     .then(results => {
       res.send(JSON.stringify(results))
@@ -27,7 +27,7 @@ router.get('/order/details/:orderid', (req, res) => {
 
 });
 
-router.get('/orders/:page/:length', (req, res) => {
+router.get('/api/orders/:page/:length', (req, res) => {
   console.log(req.params);
   Order.find().sort({_id: -1}).skip((parseInt(req.params.page)-1)*(parseInt(req.params.length))).limit(parseInt(req.params.length)+1).select("toBePaidDate cost toBeDeliveredDate customer type").populate("type customer", "name")
     .then((results) => {
@@ -46,7 +46,7 @@ router.get('/orders/:page/:length', (req, res) => {
     })
 });
 
-router.post('/orders/add', (req, res) => {
+router.post('/api/orders/add', (req, res) => {
   const body = req.body;
   const order = new Order(body);
   const data = {

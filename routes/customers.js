@@ -4,7 +4,7 @@ const Customer = require('./../models/customer');
 
 const router = express.Router();
 
-router.get('/customers', (req, res) => {
+router.get('/api/customers', (req, res) => {
   Customer.find().sort({_id: -1}).select('name prefferedContainer').populate("prefferedContainer", "name")
   .then((results) => {
     console.log(results);
@@ -16,7 +16,7 @@ router.get('/customers', (req, res) => {
   })
 });
 
-router.post('/customer', (req, res) => {
+router.post('/api/customer', (req, res) => {
   console.log(req.body);
   const customer = new Customer({name: req.body.name, prefferedContainer: [req.body.container]})
   customer.save()

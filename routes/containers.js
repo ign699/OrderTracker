@@ -4,7 +4,7 @@ const Container = require('./../models/container');
 
 const router = express.Router();
 
-router.get('/containers', (req, res) => {
+router.get('/api/containers', (req, res) => {
   Container.find({})
   .then((results) => {
     res.send(JSON.stringify(results))
