@@ -5,7 +5,7 @@
 .fa-spinner {
     margin-top: 40vh;
     display: inline-block;
-    animation: spin 2s linear infinite;
+    animation: spin 3s linear infinite;
 }
 
 @keyframes spin {

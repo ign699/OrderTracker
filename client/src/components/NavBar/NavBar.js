@@ -23,7 +23,7 @@ class NavBar extends React.Component {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand" >Brand</a>
+            <a className="navbar-brand">Brand</a>
           </div>
 
 
@@ -31,6 +31,7 @@ class NavBar extends React.Component {
             <ul className="nav navbar-nav">
               <li onClick={this.toggleShowDropdown}><Link to={"/orders"}>Orders</Link></li>
               <li onClick={this.toggleShowDropdown}><Link to={"/addorder"}>Add Order</Link></li>
+              <li onClick={this.toggleShowDropdown}><Link to={"/customeradmin"}>Customer admin</Link></li>
             </ul>
           </div>
         </nav>

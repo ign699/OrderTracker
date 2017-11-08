@@ -18,6 +18,9 @@ td, th {
     padding-bottom: 10px ;
 }
 
+tr {
+    text-align: left;
+}
 
 .error {
     border: 1px solid red;

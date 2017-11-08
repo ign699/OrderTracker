@@ -13,3 +13,28 @@
 a {
     cursor: pointer;
 }
+
+table {
+    cursor: pointer;
+}
+
+.orderDetail {
+    font-weight: bolder;
+}
+
+.orderInfo tr {
+    padding-top: 10em;
+}
+.orderInfo {
+    cursor: inherit;
+}
+
+.modal {
+    z-index: 100;
+}
+
+.modal-products {
+    z-index:101;
+    background: rgba(0, 0, 0, 0.5);
+    padding-top: 5vh;
+}

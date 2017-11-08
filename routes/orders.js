@@ -20,6 +20,10 @@ router.get('/orders/:customerid', (req, res) => {
 });
 
 router.get('/order/details/:orderid', (req, res) => {
+  Order.findOne({_id: req.params.orderid}).populate("details.product details.container", "name").select("details")
+    .then(results => {
+      res.send(JSON.stringify(results))
+    })
 
 });
 
@@ -33,14 +37,14 @@ router.get('/orders/:page/:length', (req, res) => {
       const response = Object.create(null);
       response.results = results;
       response.hasNext = parseInt(length) === (parseInt(req.params.length) + 1);
-      res.send(JSON.stringify(response))
+      res.send(JSON.stringify(response));
 
 
     })
     .catch((error) => {
       console.log(error)
     })
-})
+});
 
 router.post('/orders/add', (req, res) => {
   const body = req.body;
