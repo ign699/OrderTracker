@@ -16,12 +16,14 @@ class OrderList extends React.Component {
       loaded: false,
       showModal: false,
       details: [],
+      currentOrderId: "",
       index: 0,
       showProductsModal: false,
       products: {},
       containers: {},
       newDetails: {},
-      productDetailsChanged: false
+      productDetailsChanged: false,
+      saveChangesEnabled: false
     };
 
     changeLoadedState = (state) => {
@@ -113,7 +115,11 @@ class OrderList extends React.Component {
     };
 
     closeModal = () => {
-      this.setState({showModal: false})
+      this.resetNewDetails();
+      this.setState({
+        showModal: false,
+        saveChangesEnabled: false
+      })
     };
 
     showProductsModal = (e) => {
@@ -144,13 +150,14 @@ class OrderList extends React.Component {
             details.push({
               container: {name: prevState.newDetails[product].container},
               product: {name: product},
-              quantity: prevState.newDetails[product].amount
+              quantity: prevState.newDetails[product].amount,
             })
           }
         });
         return {
           details: details,
-          showProductsModal: false
+          showProductsModal: false,
+          saveChangesEnabled: true
         }
       })
     };
@@ -164,9 +171,34 @@ class OrderList extends React.Component {
           this.setState({
             details: results.data.details,
             showModal: true,
-            index: index
+            index: index,
+            currentOrderId: id
           })
         });
+    };
+
+    saveChanges = (e) => {
+      e.preventDefault();
+      const details = [];
+
+      for (let detail in this.state.newDetails) {
+        let entry = this.state.newDetails[detail];
+        if (entry.amount !== "") {
+          details.push({
+            product: this.state.products[detail],
+            quantity: entry.amount,
+            container: this.state.containers[entry.container],
+          })
+        }
+      }
+      console.log(details);
+      axios.post('/api/orders/update/products/' + this.state.currentOrderId,{details: details});
+      this.setState({
+        showModal: false,
+        saveChangesEnabled: false
+
+      });
+      this.resetNewDetails();
     };
 
     render() {
@@ -187,7 +219,7 @@ class OrderList extends React.Component {
               </tbody>
             </table>
             <PageSwitcher page={this.state.page} changePage={this.changePage} hasPrevious={this.state.hasPrevious} hasNext={this.state.hasNext}/>
-            {this.state.showModal?<OrderDetailsModal showProductsModal={this.showProductsModal} orderInfo={this.state.orders[this.state.index]}  details={this.state.details} closeModal={this.closeModal}/>:""}
+            {this.state.showModal?<OrderDetailsModal saveChangesEnabled={this.state.saveChangesEnabled} saveChanges={this.saveChanges} showProductsModal={this.showProductsModal} orderInfo={this.state.orders[this.state.index]}  details={this.state.details} closeModal={this.closeModal}/>:""}
             {this.state.showProductsModal?<EditProductsModal applyProductChanges={this.applyProductChanges} productDetailsChanged={this.state.productDetailsChanged} handleContainerChange={this.handleContainerChange} handleAmountChange={this.handleAmountChange} containers={this.state.containers} products={this.state.products} details={this.state.newDetails} closeProductsModal={this.closeProductsModal}/>:""}
           </div>
         )

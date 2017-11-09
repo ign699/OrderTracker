@@ -45,6 +45,15 @@ router.get('/api/orders/:page/:length', (req, res) => {
       console.log(error)
     })
 });
+router.post('/api/orders/update/products/:orderid', (req, res) => {
+  Order.findOne({_id: req.params.orderid})
+    .then(order => {
+      console.log(order)
+      order.details = req.body.details;
+      order.save();
+      res.sendStatus(200)
+    })
+});
 
 router.post('/api/orders/add', (req, res) => {
   const body = req.body;
@@ -59,8 +68,8 @@ router.post('/api/orders/add', (req, res) => {
   })
   .catch(() => {
   })
-
-
 });
+
+
 
 module.exports = router;

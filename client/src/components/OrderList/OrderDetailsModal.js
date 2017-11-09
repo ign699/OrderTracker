@@ -34,7 +34,7 @@ const OrderDetailsModal = (props) => {
               </table>
             </div>
             <div className="modal-footer">
-              <button disabled type="submit" className="btn btn-primary">Save changes</button>
+              <button disabled={!props.saveChangesEnabled} type="submit" className="btn btn-primary" onClick={props.saveChanges}>Save changes</button>
             </div>
           </form>
         </div>
