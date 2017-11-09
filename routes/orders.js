@@ -15,8 +15,21 @@ router.get('/api/order/:orderid', (req, res) => {
 });
 
 
-router.get('/api/orders/:customerid', (req, res) => {
+router.get('/api/orders/:customerid/:page/:length', (req, res) => {
+  Order.find({customer: req.params.customerid}).sort({_id: -1}).skip((parseInt(req.params.page)-1)*(parseInt(req.params.length))).limit(parseInt(req.params.length)+1).select("toBePaidDate cost toBeDeliveredDate customer type").populate("type customer", "name")
+    .then((results) => {
+      const length = results.length;
+      if(length === 11)
+        results.pop();
+      const response = Object.create(null);
+      response.results = results;
+      response.hasNext = parseInt(length) === (parseInt(req.params.length) + 1);
+      res.send(JSON.stringify(response));
 
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 });
 
 router.get('/api/order/details/:orderid', (req, res) => {
@@ -38,7 +51,6 @@ router.get('/api/orders/:page/:length', (req, res) => {
       response.results = results;
       response.hasNext = parseInt(length) === (parseInt(req.params.length) + 1);
       res.send(JSON.stringify(response));
-
 
     })
     .catch((error) => {

@@ -38,3 +38,7 @@ table {
     background: rgba(0, 0, 0, 0.5);
     padding-top: 5vh;
 }
+
+.ListFilter {
+    padding-bottom: 1.5em;
+}

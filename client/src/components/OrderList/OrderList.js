@@ -5,6 +5,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import "./OrderList.css"
 import OrderDetailsModal from "./OrderDetailsModal";
 import EditProductsModal from "./EditProductsModal"
+import ListFilter from "./ListFilter";
 
 class OrderList extends React.Component {
     state = {
@@ -22,6 +23,7 @@ class OrderList extends React.Component {
       products: {},
       containers: {},
       newDetails: {},
+      customers: [],
       productDetailsChanged: false,
       saveChangesEnabled: false
     };
@@ -41,6 +43,7 @@ class OrderList extends React.Component {
         }
       });
     };
+
     componentDidMount = () => {
       axios.get("/api/orders/" + this.state.page + "/" + this.state.length)
         .then(results => {
@@ -50,7 +53,7 @@ class OrderList extends React.Component {
           });
           this.changeLoadedState(true);
         });
-      axios.all([axios.get("/api/products"), axios.get("/api/containers")])
+      axios.all([axios.get("/api/products"), axios.get("/api/containers"), axios.get("/api/customers")])
         .then(response => {
           const products = {};
           const containers = {};
@@ -68,7 +71,8 @@ class OrderList extends React.Component {
           this.setState({
             products: products,
             containers: containers,
-            newDetails: newDetails
+            newDetails: newDetails,
+            customers: response[2].data
           })
 
       })
@@ -196,15 +200,32 @@ class OrderList extends React.Component {
       this.setState({
         showModal: false,
         saveChangesEnabled: false
-
       });
       this.resetNewDetails();
     };
 
+    reloadOrders = (event) => {
+      this.setState({
+        loaded: false
+      });
+      const target = event.target;
+      const customerId = target.options[target.selectedIndex].value;
+      axios.get("/api/orders/" + customerId + "/" + "1" + "/" + "10" )
+        .then(results => {
+          this.setState({
+            orders: results.data.results,
+            hasNext: results.data.hasNext,
+            hasPrevious: false,
+            page: 1
+          });
+          this.changeLoadedState(true);
+        })
+    };
     render() {
       if(this.state.loaded) {
         return (
           <div>
+            <ListFilter reloadOrders={this.reloadOrders} customers={this.state.customers} />
             <table className="table table-bordered">
               <thead>
               <tr>
