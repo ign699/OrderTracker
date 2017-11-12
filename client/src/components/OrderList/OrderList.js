@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PageSwitcher from './PageSwitcher'
 import axios from 'axios';
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import "./OrderList.css"
 import OrderDetailsModal from "./OrderDetailsModal";
 import EditProductsModal from "./EditProductsModal"
 import ListFilter from "./ListFilter";
+import PageSwitcher from "../PageSwitcher/PageSwitcher"
 
 class OrderList extends React.Component {
     state = {
@@ -25,7 +25,8 @@ class OrderList extends React.Component {
       newDetails: {},
       customers: [],
       productDetailsChanged: false,
-      saveChangesEnabled: false
+      saveChangesEnabled: false,
+      currentCustomerFilter: "All"
     };
 
     changeLoadedState = (state) => {
@@ -210,22 +211,63 @@ class OrderList extends React.Component {
       });
       const target = event.target;
       const customerId = target.options[target.selectedIndex].value;
-      axios.get("/api/orders/" + customerId + "/" + "1" + "/" + "10" )
-        .then(results => {
-          this.setState({
-            orders: results.data.results,
-            hasNext: results.data.hasNext,
-            hasPrevious: false,
-            page: 1
-          });
-          this.changeLoadedState(true);
-        })
+      if(parseInt(customerId) === -1) {
+        axios.get("/api/orders/" + "1" + "/" + "10")
+          .then(results => {
+            this.setState({
+              orders: results.data.results,
+              hasNext: results.data.hasNext,
+              hasPrevious: false,
+              page: 1
+            });
+            this.changeLoadedState(true);
+          })
+      } else {
+        axios.get("/api/orders/" + customerId + "/" + "1" + "/" + "10" )
+          .then(results => {
+            this.setState({
+              orders: results.data.results,
+              hasNext: results.data.hasNext,
+              hasPrevious: false,
+              page: 1
+            });
+            this.changeLoadedState(true);
+          })
+      }
+    };
+    handleCustomerFilterChange = (event) => {
+      console.log(event.target.value);
+      this.setState({
+        currentCustomerFilter: event.target.value
+      });
+      this.reloadOrders(event);
     };
     render() {
-      if(this.state.loaded) {
+      const {
+        loaded,
+        customers,
+        orders,
+        page,
+        hasPrevious,
+        hasNext,
+        showModal,
+        showProductsModal,
+        saveChangesEnabled,
+        productDetailsChanged,
+        index,
+        details,
+        containers,
+        products,
+        newDetails,
+        currentCustomerFilter
+      } =  this.state;
+      if(loaded) {
         return (
           <div>
-            <ListFilter reloadOrders={this.reloadOrders} customers={this.state.customers} />
+            <ListFilter handleCustomerFilterChange={this.handleCustomerFilterChange}
+                        customers={customers}
+                        currentCustomerFilter={currentCustomerFilter}
+            />
             <table className="table table-bordered">
               <thead>
               <tr>
@@ -236,12 +278,34 @@ class OrderList extends React.Component {
               </tr>
               </thead>
               <tbody>
-              {this.state.orders.map((order, i) => <tr key={order._id} data-orderid={order._id} onClick={this.rowClick}><td>{order.customer.name}</td><td>{order.toBePaidDate.slice(0, 10)}</td><td>{order.toBeDeliveredDate.slice(0,10)}</td><td>{order.cost}</td></tr>)}
+              {orders.map((order, i) =>
+                <tr key={order._id} data-orderid={order._id} onClick={this.rowClick}>
+                  <td>{order.customer.name}</td><td>{order.toBePaidDate.slice(0, 10)}</td>
+                  <td>{order.toBeDeliveredDate.slice(0,10)}</td>
+                  <td>{order.cost}</td>
+                </tr>)}
               </tbody>
             </table>
-            <PageSwitcher page={this.state.page} changePage={this.changePage} hasPrevious={this.state.hasPrevious} hasNext={this.state.hasNext}/>
-            {this.state.showModal?<OrderDetailsModal saveChangesEnabled={this.state.saveChangesEnabled} saveChanges={this.saveChanges} showProductsModal={this.showProductsModal} orderInfo={this.state.orders[this.state.index]}  details={this.state.details} closeModal={this.closeModal}/>:""}
-            {this.state.showProductsModal?<EditProductsModal applyProductChanges={this.applyProductChanges} productDetailsChanged={this.state.productDetailsChanged} handleContainerChange={this.handleContainerChange} handleAmountChange={this.handleAmountChange} containers={this.state.containers} products={this.state.products} details={this.state.newDetails} closeProductsModal={this.closeProductsModal}/>:""}
+            <PageSwitcher page={page}
+                          changePage={this.changePage}
+                          hasPrevious={hasPrevious}
+                          hasNext={hasNext}
+            />
+            {showModal?<OrderDetailsModal saveChangesEnabled={saveChangesEnabled}
+                                          saveChanges={this.saveChanges}
+                                          showProductsModal={this.showProductsModal}
+                                          orderInfo={orders[index]}
+                                          details={details}
+                                          closeModal={this.closeModal}/>
+              :""}
+            {showProductsModal?<EditProductsModal applyProductChanges={this.applyProductChanges}
+                                                  productDetailsChanged={productDetailsChanged}
+                                                  handleContainerChange={this.handleContainerChange}
+                                                  handleAmountChange={this.handleAmountChange}
+                                                  containers={containers} products={products}
+                                                  details={newDetails}
+                                                  closeProductsModal={this.closeProductsModal}/>
+              :""}
           </div>
         )
       } else {

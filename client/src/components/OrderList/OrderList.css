@@ -1,12 +1,3 @@
-
-.page {
-    font-size: 15px;
-}
-
-.disabled {
-    cursor: not-allowed;
-}
-
 .table-bordered tbody tr:hover {
     background-color: lightgray;
 }

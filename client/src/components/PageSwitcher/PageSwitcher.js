@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 const PageSwitcher = (props) => {
-
   return (
     <ul className="pager">
       <li className={props.hasPrevious?"":"disabled"} onClick={(e) => props.hasPrevious?props.changePage(-1):e.preventDefault()}><a> Previous</a></li>

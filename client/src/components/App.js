@@ -15,9 +15,11 @@ class App extends Component {
         <Router>
           <div>
             <NavBar />
-            <Route path={"/addorder"} component={OrderForm}/>
-            <Route path={"/orders"} component={OrderList}/>
-            <Route path={"/customeradmin"} component={CustomersAdmin}/>
+            <div className="under-navbar">
+              <Route path={"/addorder"} component={OrderForm}/>
+              <Route path={"/orders"} component={OrderList}/>
+              <Route path={"/customeradmin"} component={CustomersAdmin}/>
+            </div>
           </div>
         </Router>
       </div>
