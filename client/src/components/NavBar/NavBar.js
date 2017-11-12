@@ -23,7 +23,7 @@ class NavBar extends React.Component {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <Link className="navbar-brand" to={"/index"} >Home</Link>
+            <Link className="navbar-brand" to={"/index"}>Home</Link>
           </div>
 
 
@@ -38,6 +38,6 @@ class NavBar extends React.Component {
       </div>
     )
   }
-};
+}
 
 export default NavBar;

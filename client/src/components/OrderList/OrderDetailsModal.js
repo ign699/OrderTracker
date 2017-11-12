@@ -18,9 +18,10 @@ const OrderDetailsModal = (props) => {
                     <tr><td className="orderDetail">Cost: </td><td>{props.orderInfo.cost?props.orderInfo.cost:"not given"}</td></tr>
                     <tr><td className="orderDetail">Deliver by: </td><td>{props.orderInfo.toBeDeliveredDate.slice(0, 10)}</td></tr>
                     <tr><td className="orderDetail">Pay by: </td><td>{props.orderInfo.toBePaidDate.slice(0, 10)}</td></tr>
+                    <tr><td className="orderDetail">Type: </td><td>{props.orderInfo.type.name}</td></tr>
                   </tbody>
                 </table>
-                <button onClick={props.showProductsModal} className="btn btn-success"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button>
+                <button onClick={props.showEditDetailsModal} className="btn btn-success"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button>
               </div>
               <table className="table table-striped">
                 <thead>

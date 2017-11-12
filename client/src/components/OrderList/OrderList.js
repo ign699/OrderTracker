@@ -6,6 +6,7 @@ import OrderDetailsModal from "./OrderDetailsModal";
 import EditProductsModal from "./EditProductsModal"
 import ListFilter from "./ListFilter";
 import PageSwitcher from "../PageSwitcher/PageSwitcher"
+import EditDetailsModal from "./EditDetailsModal";
 
 class OrderList extends React.Component {
     state = {
@@ -26,7 +27,10 @@ class OrderList extends React.Component {
       customers: [],
       productDetailsChanged: false,
       saveChangesEnabled: false,
-      currentCustomerFilter: "All"
+      currentCustomerFilter: "All",
+      showEditDetailsModal: false,
+      tempOrderDetails: {}
+
     };
 
     changeLoadedState = (state) => {
@@ -173,12 +177,13 @@ class OrderList extends React.Component {
       console.log(this.state.orders[index]);
       axios.get("/api/order/details/" + id)
         .then(results => {
-          this.setState({
+          this.setState( prevState =>({
             details: results.data.details,
             showModal: true,
             index: index,
-            currentOrderId: id
-          })
+            currentOrderId: id,
+            tempOrderDetails: prevState.orders[index]
+          }))
         });
     };
 
@@ -242,6 +247,21 @@ class OrderList extends React.Component {
       });
       this.reloadOrders(event);
     };
+
+    closeEditDetailsModal = (event) => {
+      event.preventDefault();
+      this.setState({
+        showEditDetailsModal: false
+      })
+    };
+
+    showEditDetailsModal = (event) => {
+      event.preventDefault();
+      this.setState({
+        showEditDetailsModal: true
+      })
+
+    };
     render() {
       const {
         loaded,
@@ -259,7 +279,9 @@ class OrderList extends React.Component {
         containers,
         products,
         newDetails,
-        currentCustomerFilter
+        currentCustomerFilter,
+        showEditDetailsModal,
+        tempOrderDetails
       } =  this.state;
       if(loaded) {
         return (
@@ -296,15 +318,25 @@ class OrderList extends React.Component {
                                           showProductsModal={this.showProductsModal}
                                           orderInfo={orders[index]}
                                           details={details}
-                                          closeModal={this.closeModal}/>
+                                          closeModal={this.closeModal}
+                                          showEditDetailsModal={this.showEditDetailsModal}/>
               :""}
             {showProductsModal?<EditProductsModal applyProductChanges={this.applyProductChanges}
                                                   productDetailsChanged={productDetailsChanged}
                                                   handleContainerChange={this.handleContainerChange}
                                                   handleAmountChange={this.handleAmountChange}
-                                                  containers={containers} products={products}
+                                                  containers={containers}
+                                                  products={products}
                                                   details={newDetails}
                                                   closeProductsModal={this.closeProductsModal}/>
+              :""}
+            {showEditDetailsModal?<EditDetailsModal tempOrderDetails={tempOrderDetails}
+                                                    closeEditDetailsModal={this.closeEditDetailsModal}
+                                                    customers={customers}
+
+
+              />
+
               :""}
           </div>
         )
