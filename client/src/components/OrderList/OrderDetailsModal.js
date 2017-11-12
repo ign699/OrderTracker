@@ -11,14 +11,17 @@ const OrderDetailsModal = (props) => {
               <h4 className="modal-title">Order details: </h4>
             </div>
             <div className="modal-body">
-              <table className="orderInfo">
-                <tbody>
-                  <tr><td className="orderDetail">Customer Name: </td><td>{props.orderInfo.customer.name}</td></tr>
-                  <tr><td className="orderDetail">Cost: </td><td>{props.orderInfo.cost?props.orderInfo.cost:"not given"}</td></tr>
-                  <tr><td className="orderDetail">Deliver by: </td><td>{props.orderInfo.toBeDeliveredDate.slice(0, 10)}</td></tr>
-                  <tr><td className="orderDetail">Pay by: </td><td>{props.orderInfo.toBePaidDate.slice(0, 10)}</td></tr>
-                </tbody>
-              </table>
+              <div className="details-border">
+                <table className="orderInfo">
+                  <tbody>
+                    <tr><td className="orderDetail">Customer Name: </td><td>{props.orderInfo.customer.name}</td></tr>
+                    <tr><td className="orderDetail">Cost: </td><td>{props.orderInfo.cost?props.orderInfo.cost:"not given"}</td></tr>
+                    <tr><td className="orderDetail">Deliver by: </td><td>{props.orderInfo.toBeDeliveredDate.slice(0, 10)}</td></tr>
+                    <tr><td className="orderDetail">Pay by: </td><td>{props.orderInfo.toBePaidDate.slice(0, 10)}</td></tr>
+                  </tbody>
+                </table>
+                <button onClick={props.showProductsModal} className="btn btn-success"><i className="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button>
+              </div>
               <table className="table table-striped">
                 <thead>
                   <tr>

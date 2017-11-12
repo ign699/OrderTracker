@@ -33,3 +33,10 @@ table {
 .ListFilter {
     padding-bottom: 1.5em;
 }
+
+.details-border {
+    display: inline-block;
+    padding: 30px;
+    border: black 1px solid;
+    border-radius: 20px;
+}

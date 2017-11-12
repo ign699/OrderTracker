@@ -23,7 +23,7 @@ class NavBar extends React.Component {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand">Brand</a>
+            <Link className="navbar-brand" to={"/index"} >Home</Link>
           </div>
 
 
